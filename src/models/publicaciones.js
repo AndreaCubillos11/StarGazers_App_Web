@@ -11,14 +11,16 @@ const PublicacioneSchema = mongoose.Schema({
     // URLs de las imágenes de la publicación
     imagenes: {
         type: [String], // Array de strings
-        default: [] // Valor por defecto: array vacío
+        default: [],
+        required: false // Valor por defecto: array vacío
     },
-    // Contenido de la publicación
+    /* Contenido de la publicación
     contenido: {
         type: String, // Tipo String
         required: true // Campo obligatorio
     },
-    // Comentarios de la publicación
+    */
+   // Comentarios de la publicación
     comentarios: [{
         id_Usuario: {
             type: Schema.Types.ObjectId, // Tipo ObjectID
