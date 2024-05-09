@@ -2,7 +2,7 @@ const mongoose = require("mongoose"); // importando el componente mogoose
 const ContenidoSchema = mongoose.Schema({
 
     realidadVirtual: {
-        type: [string], //URL DE LA IMAGEN DEL QR
+        type: [String], //URL DE LA IMAGEN DEL QR
         required: false
     },
     simulacion: {
