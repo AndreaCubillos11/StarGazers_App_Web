@@ -13,9 +13,9 @@ const EventoSchema = mongoose.Schema({ //Creamos Schema
    
     participantes: [{
         idUsuario: {
-            type: Schema.Types.ObjectId, // Tipo ObjectID
+            type: String, // Tipo ObjectID
             ref: 'Usuario', // Referencia al modelo Usuario
-            required: true // Campo obligatorio
+            required: false // Campo obligatorio
         },
     }]
 });
