@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Usuario = require("../models/usuarios"); // Importar el modelo Usuario
-/**/const bcrypt = require("bcrypt");
+/*const bcrypt = require("bcrypt");*/
 
 router.post('/signup', async (req, res) => {
     const { nombre, apellido, correo, clave, nacionalidad, edad, telefono, intereses } = req.body;
