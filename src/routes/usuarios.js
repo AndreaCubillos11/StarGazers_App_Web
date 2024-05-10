@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
+
+
+
 //Nuevo usuario
 router.post("/usuario", (req, res) => {
     const usuario = UsuarioSchema(req.body);

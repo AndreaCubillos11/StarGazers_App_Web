@@ -14,6 +14,10 @@ const UsuarioSchema = mongoose.Schema({
             type: String,
             required: true
         },
+        clave: {
+            type: String,
+            required: true
+        },
         nacionalidad: {
             type: String,
             required: true
