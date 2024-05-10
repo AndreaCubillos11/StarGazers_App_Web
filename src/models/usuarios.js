@@ -1,4 +1,5 @@
 const mongoose = require("mongoose"); // importando el componente mogoose
+const bcrypt = require("bcrypt"); //Se importa el componente bcrypt
 const UsuarioSchema = mongoose.Schema({
  
         nombre: {
@@ -40,6 +41,13 @@ const UsuarioSchema = mongoose.Schema({
              // Por defecto, los usuarios tienen rol de usuario
         }
     });
+    
+    // Método para cifrar la contraseña antes de almacenarla en la base de datos
+    UsuarioSchema.methods.encryptClave = async function(clave) {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(clave, salt);
+        return hash;
+    };
     
     module.exports = mongoose.model("Usuario", UsuarioSchema);
     
