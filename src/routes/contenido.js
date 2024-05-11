@@ -1,55 +1,60 @@
 const express = require("express");
-const router = express.Router(); //manejador de rutas de express
-const ContenidoSchema = require("../models/contenidos");
-//Nuevo usuario
+const router = express.Router(); // Manejador de rutas de Express
+const ContenidoSchema = require("../models/contenidos"); // Importar el esquema del modelo de Contenido
+
+// Endpoint para crear un nuevo contenido
 router.post("/contenidos", (req, res) => {
+    // Crear una nueva instancia del modelo ContenidoSchema con los datos recibidos en la solicitud
     const nuevoContenido = ContenidoSchema(req.body);
     nuevoContenido
-        .save()
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .save() // Guardar el nuevo contenido en la base de datos
+        .then((data) => res.json(data)) // Enviar la respuesta con los datos del nuevo contenido
+        .catch((error) => res.json({ message: error })); // Enviar la respuesta con un mensaje de error si ocurre alguno
 });
-module.exports = router;
 
-//Consultar todos los usuarios
+// Endpoint para obtener todos los contenidos
 router.get("/contenido", (req, res) => {
+    // Buscar todos los contenidos en la base de datos
     ContenidoSchema.find()
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .then((data) => res.json(data)) // Enviar la respuesta con los contenidos encontrados
+        .catch((error) => res.json({ message: error })); // Enviar la respuesta con un mensaje de error si ocurre alguno
 });
 
-//Consultar un usuario por su id
+// Endpoint para obtener un contenido por su ID
 router.get("/contenido/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // Obtener el ID del contenido de los parámetros de la URL
+    // Buscar un contenido por su ID en la base de datos
     ContenidoSchema
         .findById(id)
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .then((data) => res.json(data)) // Enviar la respuesta con el contenido encontrado
+        .catch((error) => res.json({ message: error })); // Enviar la respuesta con un mensaje de error si ocurre alguno
 });
 
-//Modificar el usuarios por su id
+// Endpoint para modificar un contenido por su ID
 router.put("/contenido/:id", (req, res) => {
-    const { id } = req.params;
-    const { realidadVirtual, simulacion, articulos, cursos, tutoriales, titulo, descripcion } = req.body;
-    UsuarioSchema
+    const { id } = req.params; // Obtener el ID del contenido de los parámetros de la URL
+    const { realidadVirtual, simulacion, articulos, cursos, tutoriales, titulo, descripcion } = req.body; // Obtener los datos actualizados del contenido de la solicitud
+    // Actualizar el contenido en la base de datos
+    ContenidoSchema
         .updateOne({ _id: id }, {
-            $set: { realidadVirtual, simulacion, articulos, cursos, tutoriales, titulo, descripcion  }
+            $set: { realidadVirtual, simulacion, articulos, cursos, tutoriales, titulo, descripcion }
         })
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .then((data) => res.json(data)) // Enviar la respuesta con los datos de la actualización
+        .catch((error) => res.json({ message: error })); // Enviar la respuesta con un mensaje de error si ocurre alguno
 });
 
-//Eliminar un usuario por su id
-
+// Endpoint para eliminar un contenido por su ID
 router.delete("/contenido/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // Obtener el ID del contenido de los parámetros de la URL
+    // Buscar y eliminar un contenido por su ID en la base de datos
     ContenidoSchema
         .findByIdAndDelete(id)
         .then((data) => {
-            res.json(data);
+            res.json(data); // Enviar la respuesta con los datos del contenido eliminado
         })
         .catch((error) => {
-            res.json({ message: error });
+            res.json({ message: error }); // Enviar la respuesta con un mensaje de error si ocurre alguno
         });
 });
 
+module.exports = router; // Exportar el router para su uso en otros archivos
