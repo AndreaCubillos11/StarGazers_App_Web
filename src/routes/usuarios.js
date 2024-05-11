@@ -18,7 +18,7 @@ router.post("/login", (req, res) => {
     const { correo, clave } = req.body;
 
     // Buscar el usuario en la base de datos por correo
-    Usuario.findOne({ correo: correo })
+    UsuarioSchema.findOne({ correo: correo })
         .then(async user => {
             if (!user) {
                 return res.status(401).json({ message: "¡Correo no encontrado!" });
