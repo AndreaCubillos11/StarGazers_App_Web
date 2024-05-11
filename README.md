@@ -27,5 +27,9 @@
 
 > - **jwt:** JSON Web Tokens, es un generador de tokens para acceso seguro, comando implementador: npm i jsonwebtoken --save
 
+Descripción del funcionamiento:
 
-
+El index.js usando los archivos en Routes (+mas librerias) reciben peticiones http (Protocolo de Transferencia de HyperTextos), 
+esto para servir de CRUDS para las colecciones en la respectiva Base de Datos MongoDB, 
+estas peticiones han de cumplir con los esquemas de la respectiva coleccion,
+los esquemas estan guardador en archivos modelos bajo un nombre similar.

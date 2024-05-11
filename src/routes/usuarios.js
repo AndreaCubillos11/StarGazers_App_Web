@@ -54,7 +54,7 @@ router.get("/Usuario/:id", (req, res) => {
 });
 
 //Modificar el usuarios por su id
-router.put("/Usuario/:id",  (req, res) => {
+router.put("/Usuario/:id", (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, edad, telefono, intereses } = req.body;
     UsuarioSchema
