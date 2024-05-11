@@ -67,7 +67,7 @@ router.put("/Usuario/:id",  (req, res) => {
 
 //Eliminar un usuario por su id
 
-router.delete("/Usuario/:id",  (req, res) => {
+router.delete("/Usuario/:id", (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findByIdAndDelete(id)

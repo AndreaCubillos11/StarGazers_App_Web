@@ -3,7 +3,7 @@ const router = express.Router(); // Manejador de rutas de express
 const PublicacioneSchema = require("../models/publicaciones");
 
 // Nueva publicación
-router.post("/publicaciones", (req, res) => {
+router.post("/publicaciones", veryfyToken, (req, res) => {
     const nuevaPublicacion = new PublicacioneSchema(req.body);
     nuevaPublicacion
         .save()
@@ -32,7 +32,7 @@ router.get("/publicaciones/:id", (req, res) => {
 });
 
 // Modificar una publicación por ID
-router.put("/publicaciones/:id", (req, res) => {
+router.put("/publicaciones/:id", veryfyToken, (req, res) => {
     const { id } = req.params;
     const { imagenes, contenido } = req.body;
     PublicacioneSchema.findByIdAndUpdate(id, { imagenes, contenido }, { new: true })
@@ -46,7 +46,7 @@ router.put("/publicaciones/:id", (req, res) => {
 });
 
 // Eliminar una publicación por ID
-router.delete("/publicaciones/:id", (req, res) => {
+router.delete("/publicaciones/:id", veryfyToken, (req, res) => {
     const { id } = req.params;
     PublicacioneSchema.findByIdAndDelete(id)
         .then((data) => {
