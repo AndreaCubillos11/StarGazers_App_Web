@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Usuario = require("../models/usuarios"); // Importar el modelo Usuario
+const jwt = require("jsonwebtoken");
 
 router.post('/login', async (req, res) => {
     const { correo, clave } = req.body;
@@ -28,5 +29,7 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: "Hubo un error al iniciar sesión." });
     }
 });
+
+
 
 module.exports = router;

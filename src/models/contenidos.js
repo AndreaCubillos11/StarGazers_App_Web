@@ -1,26 +1,7 @@
 const mongoose = require("mongoose"); // importando el componente mogoose
 const ContenidoSchema = mongoose.Schema({
 
-    realidadVirtual: {
-        type: [String], //URL DE LA IMAGEN DEL QR
-        required: false
-    },
-    simulacion: {
-        type: [String], //URL VIDEOS
-        required: false
-    },
-    artículos: {
-        type: String,
-        required: false
-    },
-    cursos: {
-        type: String,
-        required: true
-    },
-    tutoriales: {
-        type: String,
-        required: true
-    },
+
     titulo: {
         type: String,
         required: true
@@ -28,6 +9,14 @@ const ContenidoSchema = mongoose.Schema({
     descripcion: {
         type: String,
         required: true
+    },
+    tipo: { //*se encarga de distinguir si el enlace dirigira hacia un articulo, curso, tutorial, simulacion 3D o QR de Realidad Aumentada
+        type: Number,
+        required: true
+    },
+    EnlaceContenido: {
+        type: [String], //URL de redirección hacia el contenido (QR)
+        required: false
     }
 
 });
