@@ -2,34 +2,30 @@ const express = require("express");
 const router = express.Router();
 const Usuario = require("../models/usuarios"); // Importar el modelo Usuario
 
-router.post('/signup', async (req, res) => {
-    const { nombre, apellido, correo, clave, nacionalidad, edad, telefono, intereses } = req.body;
+router.post('/login', async (req, res) => {
+    const { correo, clave } = req.body;
 
     try {
-        // Crear un nuevo usuario con los datos proporcionados
-        const nuevoUsuario = new Usuario({
-            nombre: nombre,
-            apellido: apellido,
-            correo: correo,
-            clave: clave,
-            nacionalidad: nacionalidad,
-            edad: edad,
-            telefono: telefono,
-            intereses: intereses
-        });
+        // Buscar al usuario en la base de datos por su correo electrónico
+        const usuario = await Usuario.findOne({ correo });
 
-        // Cifrar la contraseña antes de guardarla en la base de datos
-        nuevoUsuario.clave = await nuevoUsuario.encryptClave(nuevoUsuario.clave);
+        // Si no se encuentra el usuario, enviar un mensaje de error
+        if (!usuario) {
+            return res.status(404).json({ error: " ¡Usuario no encontrado!" });
+        }
 
-        // Guardar el nuevo usuario en la base de datos
-        await nuevoUsuario.save();
+        // Verificar la contraseña
+        const claveValida = await usuario.validarClave(clave);
+        if (!claveValida) {
+            return res.status(401).json({ error: "¡Contraseña incorrecta!" });
+        }
 
-        // Devolver el nuevo usuario en formato JSON como respuesta
-        res.json(nuevoUsuario);
+        // Si la contraseña es válida, devolver el usuario en formato JSON como respuesta
+        res.json(usuario);
     } catch (error) {
         // Manejar cualquier error y enviar una respuesta de error al cliente
-        console.error("Error al registrar usuario:", error);
-        res.status(500).json({ error: "Hubo un error al registrar el usuario." });
+        console.error("Error al iniciar sesión:", error);
+        res.status(500).json({ error: "Hubo un error al iniciar sesión." });
     }
 });
 
