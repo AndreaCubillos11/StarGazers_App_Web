@@ -6,9 +6,9 @@ const UsuariosRoutes = require("./routes/usuarios"); // Requiere el archivo de r
 const PublicacionesRoutes = require("./routes/publicaciones"); // Requiere el archivo de rutas para publicaciones.
 const EventoRoutes = require("./routes/eventos"); // Requiere el archivo de rutas para eventos.
 const ContenidoRoutes = require("./routes/contenido"); // Requiere el archivo de rutas para contenido.
-const authRoutes = require ("./routes/autenticacion"); // Requiere el archivo de rutas para autenticación.
+const authRoutes = require ("./routes/Acceso"); // Requiere el archivo de rutas para autenticación.
 const mongoose = require("mongoose"); // Requiere el módulo mongoose para interactuar con MongoDB.
-const verifyToken = require('./validar_token');
+const verifyToken = require('./routes/validar_token');
 require('dotenv').config(); // Requiere el módulo dotenv para cargar variables de entorno desde un archivo .env.
 
 // Middleware para analizar solicitudes codificadas en URL.
