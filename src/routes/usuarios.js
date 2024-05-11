@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
-const verifyToken = require('./validate_token');
+const verifyToken = require('./validar_token');
 
 //Nuevo usuario (Sin verificación de token)
 router.post("/usuario", (req, res) => {
