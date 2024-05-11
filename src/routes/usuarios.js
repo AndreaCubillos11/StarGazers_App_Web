@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require('./validar_token');
 
 //Nuevo usuario (Sin verificación de token)
-router.post("/usuario", (req, res) => {
+router.post("/Registrar", (req, res) => {
     const usuario = UsuarioSchema(req.body);
     usuario
         .save()
