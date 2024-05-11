@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router(); // Manejador de rutas de express
 const EventoSchema = require("../models/eventos");
+const verifyToken = require("./validar_token");
 
 // Nueva publicación
-router.post("/evento", (req, res) => {
+router.post("/evento", verifyToken, (req, res) => {
     const nuevoEvento = new EventoSchema(req.body);
     nuevoEvento
         .save()
@@ -19,7 +20,7 @@ router.get("/evento", (req, res) => {
 });
 
 // Consultar una publicación por su ID
-router.get("/evento/:id", (req, res) => {
+router.get("/evento/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     EventoSchema.findById(id)
         .then((data) => {
@@ -32,7 +33,7 @@ router.get("/evento/:id", (req, res) => {
 });
 
 // Modificar una publicación por ID
-router.put("/evento/:id", (req, res) => {
+router.put("/evento/:id",verifyToken,  (req, res) => {
     const { id } = req.params;
     const { titulo, descripcion } = req.body;
     EventoSchema.findByIdAndUpdate(id, { titulo, descripcion }, { new: true })
@@ -46,7 +47,7 @@ router.put("/evento/:id", (req, res) => {
 });
 
 // Eliminar una publicación por ID
-router.delete("/evento/:id", (req, res) => {
+router.delete("/evento/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     EventoSchema.findByIdAndDelete(id)
         .then((data) => {
