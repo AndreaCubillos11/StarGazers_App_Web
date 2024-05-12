@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require('./validar_token');
 
 //Nuevo usuario (clave ya encryptada)
-router.post("/Registrar", async (req, res) => {
+router.post("/Registrar",  async (req, res) => {
     const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
     user.clave = await user.encryptClave(user.clave);    //encrypta la clave y reemplaza aquella dada
     await usuario
@@ -16,7 +16,7 @@ router.post("/Registrar", async (req, res) => {
 
 
 //inicio de sesión-Acceso de usuario  
-router.post("/login", (req, res) => {
+router.post("/login",  (req, res) => {
     const { correo, clave } = req.body;
 
     // Buscar el usuario en la base de datos por correo
@@ -51,14 +51,14 @@ router.post("/login", (req, res) => {
 });
 
 //Consultar todos los usuarios
-router.get("/Usuario", (req, res) => {
+router.get("/Usuario", verifyToken, (req, res) => {
     UsuarioSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
 
 //Consultar un usuario por su id
-router.get("/Usuario/:id", (req, res) => {
+router.get("/Usuario/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findById(id)
@@ -67,7 +67,7 @@ router.get("/Usuario/:id", (req, res) => {
 });
 
 //Modificar el usuarios por su id
-router.put("/Usuario/:id", (req, res) => {
+router.put("/Usuario/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, edad, telefono, intereses } = req.body;
     UsuarioSchema
@@ -80,7 +80,7 @@ router.put("/Usuario/:id", (req, res) => {
 
 //Eliminar un usuario por su id
 
-router.delete("/Usuario/:id", (req, res) => {
+router.delete("/Usuario/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findByIdAndDelete(id)
@@ -93,6 +93,7 @@ router.delete("/Usuario/:id", (req, res) => {
 });
 
 // Endpoint para inicio de sesión
+/*
 router.post("/login", (req, res) => {
     const { correo, clave } = req.body;
 
@@ -118,7 +119,7 @@ router.post("/login", (req, res) => {
             // Si hay un error en la consulta a la base de datos, devolver un mensaje de error
             res.status(500).json({ message: "Error en la base de datos", error: error });
         });
-});
+});* */
 
 
 

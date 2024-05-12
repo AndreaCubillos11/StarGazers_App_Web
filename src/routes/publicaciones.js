@@ -13,14 +13,14 @@ router.post("/publicaciones", verifyToken, (req, res) => {
 });
 
 // Consultar todas las publicaciones
-router.get("/publicaciones", (req, res) => {
+router.get("/publicaciones", verifyToken, (req, res) => {
     PublicacioneSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.status(500).json({ message: error.message }));
 });
 
 // Consultar una publicación por su ID
-router.get("/publicaciones/:id", (req, res) => {
+router.get("/publicaciones/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     PublicacioneSchema.findById(id)
         .then((data) => {

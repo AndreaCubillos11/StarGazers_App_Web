@@ -16,7 +16,7 @@ router.post("/evento", verifyToken, (req, res) => { // Ruta POST para crear un n
 });
 
 // Consultar todos los eventos
-router.get("/evento", (req, res) => { // Ruta GET para obtener todos los eventos
+router.get("/evento", verifyToken, (req, res) => { // Ruta GET para obtener todos los eventos
   EventoSchema.find() // Encuentra todos los documentos en la colección de eventos
     .then((data) => res.json(data)) // Si se encuentra correctamente, envía los datos de los eventos como respuesta
     .catch((error) => res.status(500).json({ message: error.message })); // Si ocurre un error, envía un mensaje de error con código 500
