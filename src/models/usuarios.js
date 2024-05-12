@@ -26,11 +26,11 @@ const UsuarioSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    intereses: {
+    intereses: { //¨descripcion del perfil¨, contiene aquella informacion relacionada a la astrologia que busca conocer el usuario
         type: String,
         required: true
     },
-    seguidores: {
+    seguidores: { //cantidad, no el listado
         type: Number,
         required: false,
         private: true

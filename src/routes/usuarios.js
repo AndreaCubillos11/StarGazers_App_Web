@@ -4,16 +4,18 @@ const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
 const verifyToken = require('./validar_token');
 
-//Nuevo usuario (Sin verificación de token)
-router.post("/Registrar", (req, res) => {
-    const usuario = UsuarioSchema(req.body);
-    usuario
-        .save()
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+//Nuevo usuario (clave ya encryptada)
+router.post("/Registrar", async (req, res) => {
+    const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
+    user.clave = await user.encryptClave(user.clave);    //encrypta la clave y reemplaza aquella dada
+    await usuario
+        .save()                                          //guardelo
+        .then((data) => res.json(data))                  //muestre el usuario
+        .catch((error) => res.json({ message: error }))  //atrape el error como mensaje                                 
 });
 
-//inicio de sesión-Acceso de usuario  (sin verificación de Token)
+
+//inicio de sesión-Acceso de usuario  
 router.post("/login", (req, res) => {
     const { correo, clave } = req.body;
 
@@ -26,8 +28,19 @@ router.post("/login", (req, res) => {
 
             // Verificar si la contraseña es correcta utilizando bcrypt
             const match = await bcrypt.compare(clave, user.clave);
-            if (match) {
-                res.json({ message: "Inicio de sesión exitoso" });
+
+            if (match) {//si es valida
+                const token = jwt.sign(         /*cree un token*/
+                    { id: user._id },           /*asociado al id del usuario*/
+                    process.env.SECRET,         /*y recibiendo la variable de entorno SECRET*/
+                    { expiresIn: 60 * 60 * 24,  /*que expire la sesion tras un día en segundos*/}
+                );           
+                res.json({
+                    auth: true,                 /*se autorizo*/
+                    token,                      /*mostrara el token pa copiarlo*/
+                    correo,                     
+                    message:"se inicio la sesion correctamente"
+                });
             } else {
                 res.status(401).json({ message: "¡Contraseña incorrecta!" });
             }
@@ -106,6 +119,9 @@ router.post("/login", (req, res) => {
             res.status(500).json({ message: "Error en la base de datos", error: error });
         });
 });
+
+
+
 
 
 module.exports = router;

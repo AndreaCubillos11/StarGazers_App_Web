@@ -15,7 +15,7 @@ const ContenidoSchema = mongoose.Schema({
         required: true
     },
     EnlaceContenido: {
-        type: [String], //URL de redirección hacia el contenido (QR)
+        type: [String], //URL de redirección hacia el contenido (QR, video, documento, etc)
         required: false
     }
 
