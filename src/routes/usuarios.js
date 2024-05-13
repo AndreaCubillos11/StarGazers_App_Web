@@ -27,7 +27,7 @@ router.post("/login",  (req, res) => {
             }
 
             // Verificar si la contraseña es correcta utilizando bcrypt
-            const match = await bcrypt.compare(clave, user.clave);
+            const match = await bcrypt.compare(req.body.clave, usuario.clave);
 
             if (match) {//si es valida
                 const token = jwt.sign(         /*cree un token*/
