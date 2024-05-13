@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require('./validar_token');
 
 //Nuevo usuario (clave ya encryptada)
-router.post("/Registrar",  async (req, res) => {
+router.post("usuario/registrar",  async (req, res) => {
     const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
     usuario.clave = await usuario.encryptClave(usuario.clave);    //encrypta la clave y reemplaza aquella dada
     await usuario
@@ -16,8 +16,31 @@ router.post("/Registrar",  async (req, res) => {
 
 
 //inicio de sesión-Acceso de usuario  
-router.post("/login",  (req, res) => {
+router.post("usuario/login",  (req, res) => {
     const { correo, clave } = req.body;             //pide correo y contraseña
+
+    /*const { errorCredenciales } = userSchema.validate(req.body.correo, req.body.clave);
+  if (errorCredenciales) return res.status(400).json({ error: error.details[0].message });
+  //Buscando el usuario por su dirección de correo
+  const usuario = await UsuarioSchema.findOne({ correo: req.body.correo });
+  //validando si no se encuentra
+  if (!user) return res.status(401).json({ error: "¡Correo no encontrado!" });
+
+    const match = await bcrypt.compare(req.body.clave, usuario.clave);
+
+    if (match) {//si es valida
+                const token = jwt.sign(         //*cree un token
+                { id: user._id },           //*asociado al id del usuario
+                process.env.SECRET,         //*y recibiendo la variable de entorno SECRET
+                { expiresIn: 60 * 60 * 24}  //*que expire la sesion tras un día en segundos
+            );           
+            res.json({
+                auth: true,                 //*se autorizo*
+                token,                      /*mostrara el token pa copiarlo
+                correo,                     
+                message:"se inicio la sesion correctamente"
+            });
+ */
 
     // Buscar el usuario en la base de datos por correo
     UsuarioSchema.findOne({ correo: correo })       //hallara un 
@@ -51,7 +74,7 @@ router.post("/login",  (req, res) => {
 });
 
 //Consultar todos los usuarios
-router.get("/Usuario", verifyToken, (req, res) => {
+router.get("usuario/Usuario", verifyToken, (req, res) => {
     UsuarioSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));

@@ -37,7 +37,7 @@ const UsuarioSchema = mongoose.Schema({
     },
     rol: {
         type: Number,
-        required: false,
+        required: true,
         default: 1 // Por defecto, los usuarios tienen rol de usuario
     },
     clave: {
@@ -45,7 +45,7 @@ const UsuarioSchema = mongoose.Schema({
         required: true 
     }
 });
-
+/*
 // Método para cifrar la contraseña antes de almacenarla en la base de datos
 UsuarioSchema.methods.encryptClave = async function(clave) {
     const salt = await bcrypt.genSalt(10);
@@ -59,6 +59,6 @@ UsuarioSchema.pre('save', async function(next) {
         this.clave = await this.encryptClave(this.clave);
     }
     next();
-});
+});*/
 
 module.exports = mongoose.model("Usuario", UsuarioSchema);

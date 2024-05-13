@@ -1,15 +1,20 @@
+
 const parser = require("body-parser");  // Requiere el módulo body-parser para analizar las solicitudes entrantes.
+
 // Crea una nueva aplicación Express.
 const express = require('express');     
 const app = express();      
 const port = 3000;          // Define el puerto en el que la aplicación escuchará las solicitudes.
+
 const UsuariosRoutes = require("./routes/usuarios");    // Requiere el archivo de rutas para usuarios.
 const PublicacionesRoutes = require("./routes/publicaciones");  // Requiere el archivo de rutas para publicaciones.
 const EventoRoutes = require("./routes/eventos");       // Requiere el archivo de rutas para eventos.
 const ContenidoRoutes = require("./routes/contenido");  // Requiere el archivo de rutas para contenido.
 const authRoutes = require ("./routes/Acceso");         // Requiere el archivo de rutas para autenticación.
+
 const mongoose = require("mongoose");       // Requiere el módulo mongoose para interactuar con MongoDB.
 const verifyToken = require('./routes/validar_token');
+
 require('dotenv').config();         // Requiere el módulo dotenv para cargar variables de entorno desde un archivo .env.
 
 // Middleware para analizar solicitudes codificadas en URL.
@@ -27,7 +32,7 @@ app.use(express.json());
 
 // Conexión a la base de datos MongoDB utilizando la URI especificada en el archivo .env.
 mongoose
-    .connect(process.env.MONGODB_URI)
+    .connect(process.env.MONGODB_I)
     .then(() => console.log("Conexión exitosa")) // Log de éxito en la conexión.
     .catch((error) => console.log(error)); // Log de errores en la conexión.
 
