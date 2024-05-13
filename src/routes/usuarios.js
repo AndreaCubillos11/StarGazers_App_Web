@@ -7,7 +7,7 @@ const verifyToken = require('./validar_token');
 //Nuevo usuario (clave ya encryptada)
 router.post("/Registrar",  async (req, res) => {
     const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
-    user.clave = await user.encryptClave(user.clave);    //encrypta la clave y reemplaza aquella dada
+    usuario.clave = await user.encryptClave(user.clave);    //encrypta la clave y reemplaza aquella dada
     await usuario
         .save()                                          //guardelo
         .then((data) => res.json(data))                  //muestre el usuario
@@ -33,7 +33,7 @@ router.post("/login",  (req, res) => {
                 const token = jwt.sign(         /*cree un token*/
                     { id: user._id },           /*asociado al id del usuario*/
                     process.env.SECRET,         /*y recibiendo la variable de entorno SECRET*/
-                    { expiresIn: 60 * 60 * 24,  /*que expire la sesion tras un día en segundos*/}
+                    { expiresIn: 60 * 60 * 24}  /*que expire la sesion tras un día en segundos*/
                 );           
                 res.json({
                     auth: true,                 /*se autorizo*/
