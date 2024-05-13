@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
+const verifyToken = require('./validar_token');
 const jwt = require("jsonwebtoken");
 
 //Nuevo usuario (clave ya encryptada)
@@ -53,14 +54,15 @@ router.post("/usuario/login",  (req, res) => {
             const match = await bcrypt.compare(clave, usuario.clave);
 
             if (match) {//si es valida
-                const token = jwt.sign(         /*cree un token*/
-                    { id: usuario._id },           /*asociado al id del usuario*/
-                    process.env.SECRET,         /*y recibiendo la variable de entorno SECRET*/
-                    { expiresIn: 60 * 60 * 24}  /*que expire la sesion tras un día en segundos*/
-                );           
+                const expiresIn = 24 * 60 * 60;
+                accessToken = jwt.sign(
+                  { id: usuario.id }, 
+                  process.env.SECRET, {
+                  expiresIn: expiresIn
+                });       
                 res.json({
                     auth: true,                 /*se autorizo*/
-                    token,                      /*mostrara el token pa copiarlo*/
+                    accessToken,                      /*mostrara el token pa copiarlo*/
                     correo,                     
                     message:"se inicio la sesion correctamente"
                 });
