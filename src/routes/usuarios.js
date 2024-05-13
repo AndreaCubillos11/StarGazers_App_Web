@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
-const verifyToken = require('./validar_token');
+const jwt = require("jsonwebtoken");
 
 //Nuevo usuario (clave ya encryptada)
 router.post("/usuario/registrar",  async (req, res) => {
@@ -54,7 +54,7 @@ router.post("/usuario/login",  (req, res) => {
 
             if (match) {//si es valida
                 const token = jwt.sign(         /*cree un token*/
-                    { id: user._id },           /*asociado al id del usuario*/
+                    { id: usuario._id },           /*asociado al id del usuario*/
                     process.env.SECRET,         /*y recibiendo la variable de entorno SECRET*/
                     { expiresIn: 60 * 60 * 24}  /*que expire la sesion tras un día en segundos*/
                 );           
@@ -74,14 +74,14 @@ router.post("/usuario/login",  (req, res) => {
 });
 
 //Consultar todos los usuarios
-router.get("usuario/Usuario", verifyToken, (req, res) => {
+router.get("usuario/Usuario",  (req, res) => {
     UsuarioSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
 
 //Consultar un usuario por su id
-router.get("/Usuario/:id", verifyToken, (req, res) => {
+router.get("/Usuario/:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findById(id)
@@ -90,7 +90,7 @@ router.get("/Usuario/:id", verifyToken, (req, res) => {
 });
 
 //Modificar el usuarios por su id
-router.put("/Usuario/:id", verifyToken, (req, res) => {
+router.put("/Usuario/:id",  (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, edad, telefono, intereses } = req.body;
     UsuarioSchema
@@ -103,7 +103,7 @@ router.put("/Usuario/:id", verifyToken, (req, res) => {
 
 //Eliminar un usuario por su id
 
-router.delete("/Usuario/:id", verifyToken, (req, res) => {
+router.delete("/Usuario/:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findByIdAndDelete(id)
