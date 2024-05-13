@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require('./validar_token');
 
 //Nuevo usuario (clave ya encryptada)
-router.post("usuario/registrar",  async (req, res) => {
+router.post("/usuario/registrar",  async (req, res) => {
     const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
     usuario.clave = await usuario.encryptClave(usuario.clave);    //encrypta la clave y reemplaza aquella dada
     await usuario
@@ -16,7 +16,7 @@ router.post("usuario/registrar",  async (req, res) => {
 
 
 //inicio de sesión-Acceso de usuario  
-router.post("usuario/login",  (req, res) => {
+router.post("/usuario/login",  (req, res) => {
     const { correo, clave } = req.body;             //pide correo y contraseña
 
     /*const { errorCredenciales } = userSchema.validate(req.body.correo, req.body.clave);

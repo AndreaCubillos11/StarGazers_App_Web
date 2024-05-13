@@ -32,7 +32,7 @@ app.use(express.json());
 
 // Conexión a la base de datos MongoDB utilizando la URI especificada en el archivo .env.
 mongoose
-    .connect(process.env.MONGODB_I)
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log("Conexión exitosa")) // Log de éxito en la conexión.
     .catch((error) => console.log(error)); // Log de errores en la conexión.
 
