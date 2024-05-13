@@ -74,14 +74,14 @@ router.post("/usuario/login",  (req, res) => {
 });
 
 //Consultar todos los usuarios
-router.get("usuario/Usuario",  (req, res) => {
+router.get("/usuario/perfiles",  (req, res) => {
     UsuarioSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
 
 //Consultar un usuario por su id
-router.get("/Usuario/:id",  (req, res) => {
+router.get("/usuario/perfiles:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findById(id)
@@ -90,7 +90,7 @@ router.get("/Usuario/:id",  (req, res) => {
 });
 
 //Modificar el usuarios por su id
-router.put("/Usuario/:id",  (req, res) => {
+router.put("/usuario/editar:id",  (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, edad, telefono, intereses } = req.body;
     UsuarioSchema
@@ -103,7 +103,7 @@ router.put("/Usuario/:id",  (req, res) => {
 
 //Eliminar un usuario por su id
 
-router.delete("/Usuario/:id",  (req, res) => {
+router.delete("/usuario/borrar:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findByIdAndDelete(id)

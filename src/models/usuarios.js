@@ -16,29 +16,27 @@ const UsuarioSchema = mongoose.Schema({
     },
     nacionalidad: {
         type: String,
-        required: true
+        required: false
     },
     edad: {
         type: Number,
-        required: true
+        required: false
     },
     telefono: {
         type: Number,
-        required: true
+        required: false
     },
     intereses: { //¨descripcion del perfil¨, contiene aquella informacion relacionada a la astrologia que busca conocer el usuario
         type: String,
-        required: true
+        required: false
     },
     seguidores: { //cantidad, no el listado
         type: Number,
-        required: false,
-        private: true
+        required: false
     },
     rol: {
         type: Number,
-        required: true,
-        default: 1 // Por defecto, los usuarios tienen rol de usuario
+        required: true,// Por defecto, los usuarios tienen rol de usuario
     },
     clave: {
         type: String,
