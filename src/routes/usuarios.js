@@ -17,17 +17,17 @@ router.post("/Registrar",  async (req, res) => {
 
 //inicio de sesión-Acceso de usuario  
 router.post("/login",  (req, res) => {
-    const { correo, clave } = req.body;
+    const { correo, clave } = req.body;             //pide correo y contraseña
 
     // Buscar el usuario en la base de datos por correo
-    UsuarioSchema.findOne({ correo: correo })
+    UsuarioSchema.findOne({ correo: correo })       //hallara un 
         .then(async user => {
             if (!user) {
                 return res.status(401).json({ message: "¡Correo no encontrado!" });
             }
 
             // Verificar si la contraseña es correcta utilizando bcrypt
-            const match = await bcrypt.compare(req.body.clave, usuario.clave);
+            const match = await bcrypt.compare(clave, usuario.clave);
 
             if (match) {//si es valida
                 const token = jwt.sign(         /*cree un token*/
