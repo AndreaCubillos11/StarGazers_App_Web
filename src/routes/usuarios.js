@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
-const verifyToken = require('./validar_token');
 const jwt = require("jsonwebtoken");
 
 //Nuevo usuario (clave ya encryptada)
@@ -54,15 +53,14 @@ router.post("/usuario/login",  (req, res) => {
             const match = await bcrypt.compare(clave, usuario.clave);
 
             if (match) {//si es valida
-                const expiresIn = 24 * 60 * 60;
-                accessToken = jwt.sign(
-                  { id: usuario.id }, 
-                  process.env.SECRET, {
-                  expiresIn: expiresIn
-                });       
+                const token = jwt.sign(         /*cree un token*/
+                    { id: usuario._id },           /*asociado al id del usuario*/
+                    process.env.SECRET,         /*y recibiendo la variable de entorno SECRET*/
+                    { expiresIn: 60 * 60 * 24}  /*que expire la sesion tras un día en segundos*/
+                );           
                 res.json({
                     auth: true,                 /*se autorizo*/
-                    accessToken,                      /*mostrara el token pa copiarlo*/
+                    token,                      /*mostrara el token pa copiarlo*/
                     correo,                     
                     message:"se inicio la sesion correctamente"
                 });
@@ -83,7 +81,7 @@ router.get("/usuario/perfiles",  (req, res) => {
 });
 
 //Consultar un usuario por su id
-router.get("/usuario/perfiles:id",  (req, res) => {
+router.get("/usuario/perfiles/:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findById(id)
@@ -92,7 +90,7 @@ router.get("/usuario/perfiles:id",  (req, res) => {
 });
 
 //Modificar el usuarios por su id
-router.put("/usuario/editar:id",  (req, res) => {
+router.put("/usuario/editar/:id",  (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, edad, telefono, intereses } = req.body;
     UsuarioSchema
@@ -105,7 +103,7 @@ router.put("/usuario/editar:id",  (req, res) => {
 
 //Eliminar un usuario por su id
 
-router.delete("/usuario/borrar:id",  (req, res) => {
+router.delete("/usuario/borrar/:id",  (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findByIdAndDelete(id)
