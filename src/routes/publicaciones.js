@@ -4,7 +4,7 @@ const PublicacioneSchema = require("../models/publicaciones");
 const verifyToken = require('./validar_token');
 
 // Nueva publicación
-router.post("/publicaciones", verifyToken, (req, res) => {
+router.post("/publicaciones/nueva", /*verifyToken,*/  (req, res) => {
     const nuevaPublicacion = new PublicacioneSchema(req.body);
     nuevaPublicacion
         .save()
@@ -13,14 +13,14 @@ router.post("/publicaciones", verifyToken, (req, res) => {
 });
 
 // Consultar todas las publicaciones
-router.get("/publicaciones", verifyToken, (req, res) => {
+router.get("/publicaciones", /*verifyToken,*/ (req, res) => {
     PublicacioneSchema.find()
         .then((data) => res.json(data))
         .catch((error) => res.status(500).json({ message: error.message }));
 });
 
 // Consultar una publicación por su ID
-router.get("/publicaciones/:id", verifyToken, (req, res) => {
+router.get("/publicaciones/:id", /*verifyToken,*/  (req, res) => {
     const { id } = req.params;
     PublicacioneSchema.findById(id)
         .then((data) => {
@@ -33,7 +33,7 @@ router.get("/publicaciones/:id", verifyToken, (req, res) => {
 });
 
 // Modificar una publicación por ID
-router.put("/publicaciones/:id", verifyToken, (req, res) => {
+router.put("/publicaciones/:id", /*verifyToken,*/  (req, res) => {
     const { id } = req.params;
     const { imagenes, contenido } = req.body;
     PublicacioneSchema.findByIdAndUpdate(id, { imagenes, contenido }, { new: true })
@@ -47,7 +47,7 @@ router.put("/publicaciones/:id", verifyToken, (req, res) => {
 });
 
 // Eliminar una publicación por ID
-router.delete("/publicaciones/:id", verifyToken, (req, res) => {
+router.delete("/publicaciones/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     PublicacioneSchema.findByIdAndDelete(id)
         .then((data) => {
