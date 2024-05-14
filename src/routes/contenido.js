@@ -4,7 +4,7 @@ const ContenidoSchema = require("../models/contenidos");    // Importar el esque
 const verifyToken = require("./validar_token");
 
 // Endpoint para crear un nuevo contenido
-router.post("/contenidos",verifyToken, (req, res) => {
+router.post("/contenidos/nueva",/*verifyToken,*/ (req, res) => {
     // Crear una nueva instancia del modelo ContenidoSchema con los datos recibidos en la solicitud
     const nuevoContenido = ContenidoSchema(req.body);
     nuevoContenido
@@ -14,7 +14,7 @@ router.post("/contenidos",verifyToken, (req, res) => {
 });
 
 // Endpoint para obtener todos los contenidos
-router.get("/contenido", verifyToken, (req, res) => {
+router.get("/contenido", (req, res) => {
     // Buscar todos los contenidos en la base de datos
     ContenidoSchema.find()
         .then((data) => res.json(data))                     // Enviar la respuesta con los contenidos encontrados
@@ -22,7 +22,7 @@ router.get("/contenido", verifyToken, (req, res) => {
 });
 
 // Endpoint para obtener un contenido por su ID
-router.get("/contenido/:id", verifyToken, (req, res) => {
+router.get("/contenido/:id", /*verifyToken,*/  (req, res) => {
     const { id } = req.params;                              // Obtener el ID del contenido de los parámetros de la URL
     // Buscar un contenido por su ID en la base de datos
     ContenidoSchema
@@ -32,7 +32,7 @@ router.get("/contenido/:id", verifyToken, (req, res) => {
 });
 
 // Endpoint para modificar un contenido por su ID
-router.put("/contenido/:id", verifyToken, (req, res) => {
+router.put("/contenido/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;          // Obtener el ID del contenido de los parámetros de la URL
     const { realidadVirtual, simulacion, articulos, cursos, tutoriales, titulo, descripcion } = req.body; // Obtener los datos actualizados del contenido de la solicitud
     // Actualizar el contenido en la base de datos
@@ -45,9 +45,9 @@ router.put("/contenido/:id", verifyToken, (req, res) => {
 });
 
 // Endpoint para eliminar un contenido por su ID
-router.delete("/contenido/:id", verifyToken, (req, res) => {
     const { id } = req.params;  // Obtener el ID del contenido de los parámetros de la URL
     
+router.delete("/contenido/:id", /*verifyToken,*/  (req, res) => {
     ContenidoSchema
         .findByIdAndDelete(id)              // Buscar y eliminar un contenido por su ID en la base de datos
         .then((data) => {
