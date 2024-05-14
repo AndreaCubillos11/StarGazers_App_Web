@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const UsuarioSchema = require("../models/usuarios");
 const bcrypt = require("bcrypt");
+const verifyToken = require('./validar_token');
 const jwt = require("jsonwebtoken");
 
 //Nuevo usuario (clave ya encryptada)
@@ -20,35 +21,35 @@ router.post("/usuario/login",  (req, res) => {
     const { correo, clave } = req.body;             //pide correo y contraseña
 
     // Buscar el usuario en la base de datos por correo
-    UsuarioSchema.findOne({ correo: correo })        
-        .then(async usuario => {
-            if (!usuario) {
-                return res.status(401).json({ message: "¡Correo no encontrado!" });
-            }
+    UsuarioSchema.findOne({ correo: correo })       //hallara un 
+    .then(async usuario => {
+        if (!usuario) {
+            return res.status(401).json({ message: "¡Correo no encontrado!" });
+        }
 
-            // Verificar si la contraseña es correcta utilizando bcrypt
-            const match = await bcrypt.compare(clave, usuario.clave);
+        // Verificar si la contraseña es correcta utilizando bcrypt
+        const match = await bcrypt.compare(clave, usuario.clave);
 
-            if (match) {//si es valida
-                const expiresIn = 24 * 60 * 60;
-                accessToken = jwt.sign(
-                  { id: usuario.id }, 
-                  process.env.SECRET, {
-                  expiresIn: expiresIn
-                });       
-                res.json({
-                    auth: true,                       /*se autorizo*/
-                    accessToken,                      /*mostrara el token pa copiarlo*/
-                    correo,                     
-                    message:"se inicio la sesion correctamente"
-                });
-            } else {
-                res.status(401).json({ message: "¡Contraseña incorrecta!" });
-            }
-        })
-        .catch(error => {
-            res.status(500).json({ message: "Error en la base de datos", error: error });
-        });
+        if (match) {//si es valida
+            const expiresIn = 24 * 60 * 60;
+            accessToken = jwt.sign(
+              { id: usuario.id }, 
+              process.env.SECRET, {
+              expiresIn: expiresIn
+            });       
+            res.json({
+                auth: true,                 /*se autorizo*/
+                accessToken,                      /*mostrara el token pa copiarlo*/
+                correo,                     
+                message:"se inicio la sesion correctamente"
+            });
+        } else {
+            res.status(401).json({ message: "¡Contraseña incorrecta!" });
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: "Error en la base de datos", error: error });
+    });
 });
 
 //Consultar todos los usuarios
