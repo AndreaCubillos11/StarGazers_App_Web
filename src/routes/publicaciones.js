@@ -4,7 +4,7 @@ const PublicacioneSchema = require("../models/publicaciones");
 const verifyToken = require('./validar_token');
 
 // Nueva publicación
-router.post("/publicaciones", (req, res) => {
+router.post("/publicaciones", verifyToken, (req, res) => {
     const nuevaPublicacion = new PublicacioneSchema(req.body);
     nuevaPublicacion
         .save()

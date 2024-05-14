@@ -1,5 +1,5 @@
-const mongoose = require("mongoose"); // importando el componente mogoose
-const EventoSchema = mongoose.Schema({ //Creamos Schema
+const mongoose = require("mongoose");    // importando el componente mogoose
+const EventoSchema = mongoose.Schema({   //Creamos Schema
     
     titulo: {
         type: String, 
@@ -13,7 +13,7 @@ const EventoSchema = mongoose.Schema({ //Creamos Schema
    
     participantes: [{
         idUsuario: {
-            type: String, // Tipo ObjectID
+            type: String,   // Tipo ObjectID
             ref: 'Usuario', // Referencia al modelo Usuario
             required: false // Campo obligatorio
         },

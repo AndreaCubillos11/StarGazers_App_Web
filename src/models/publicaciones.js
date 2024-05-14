@@ -4,9 +4,9 @@ const PublicacioneSchema = mongoose.Schema({
 
     // Usuario que subió la publicación
     usuarioQueLaSubio: {
-        type: String, // Tipo ObjectID
+        type: String,   // Tipo ObjectID
         ref: 'Usuario', // Referencia al modelo Usuario
-        required: true // Campo obligatorio
+        required: true  // Campo obligatorio
     },
     // URLs de las imágenes de la publicación
     imagenes: {
@@ -16,25 +16,25 @@ const PublicacioneSchema = mongoose.Schema({
     },
     //Contenido de la publicación
     contenido: {
-        type: String, // Tipo String
-        required: true // Campo obligatorio
+        type: String,   // Tipo String
+        required: true  // Campo obligatorio
     },
     
    // Comentarios de la publicación
     comentarios: [{
         id_Usuario: {
-            type: String, // Tipo ObjectID
+            type: String,   // Tipo ObjectID
             ref: 'Usuario', // Referencia al modelo Usuario
             required: false // Campo obligatorio
         },
         texto: {
-            type: String, // Tipo String
+            type: String,   // Tipo String
             required: false // Campo obligatorio
         }
     }],
     // Usuarios que han dado "Me gusta" a la publicación
     meGusta: [{
-        type: String, // Tipo ObjectID
+        type: String,   // Tipo ObjectID
         ref: 'Usuario',
         required: false // Referencia al modelo Usuario
     }]
