@@ -10,10 +10,15 @@ const EventoSchema = mongoose.Schema({   //Creamos Schema
         type: String, 
         required: true 
     },
+
+    fecha:{
+        type: Date,
+        required: true
+    },
    
     participantes: [{
         idUsuario: {
-            type: String,   // Tipo ObjectID
+            type: String, // Tipo ObjectID
             ref: 'Usuario', // Referencia al modelo Usuario
             required: false // Campo obligatorio
         },

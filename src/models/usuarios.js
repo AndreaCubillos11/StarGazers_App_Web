@@ -16,40 +16,42 @@ const UsuarioSchema = mongoose.Schema({
     },
     nacionalidad: {
         type: String,
-        required: false
+        required: true
     },
     edad: {
         type: Number,
-        required: false
+        required: true
     },
     telefono: {
         type: Number,
-        required: false
+        required: true
     },
-    intereses: {        //¨descripcion del perfil¨, contiene aquella informacion relacionada a la astrologia que busca conocer el usuario
+    intereses: { //¨descripcion del perfil¨, contiene aquella informacion relacionada a la astrologia que busca conocer el usuario
         type: String,
-        required: false
+        required: true
     },
-    seguidores: {       //cantidad, no el listado
+    seguidores: { //cantidad, no el listado
         type: Number,
-        required: false
+        required: false,
+        private: true
     },
     rol: {
         type: Number,
-        required: true, 
+        required: true,
+        default: 1 // Por defecto, los usuarios tienen rol de usuario
     },
     clave: {
         type: String,
         required: true 
     }
 });
-
-// Método para cifrar la contraseña antes de almacenarla en la base de datos
+//Método para cifrar la contraseña antes de almacenarla en la base de datos
 UsuarioSchema.methods.encryptClave = async function(clave) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(clave, salt);
     return hash;
 };
+/*
 
 // Middleware de mongoose para cifrar la contraseña antes de guardarla en la base de datos
 UsuarioSchema.pre('save', async function(next) {
@@ -57,5 +59,6 @@ UsuarioSchema.pre('save', async function(next) {
         this.clave = await this.encryptClave(this.clave);
     }
     next();
-});
+});*/
+
 module.exports = mongoose.model("Usuario", UsuarioSchema);
