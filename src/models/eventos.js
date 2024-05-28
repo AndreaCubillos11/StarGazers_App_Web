@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");    // importando el componente mogoose
-const EventoSchema = mongoose.Schema({   //Creamos Schema
+const mongoose = require("mongoose"); // importando el componente mogoose
+const EventoSchema = mongoose.Schema({ //Creamos Schema
     
     titulo: {
         type: String, 

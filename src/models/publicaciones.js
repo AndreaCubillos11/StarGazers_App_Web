@@ -4,9 +4,9 @@ const PublicacioneSchema = mongoose.Schema({
 
     // Usuario que subió la publicación
     usuarioQueLaSubio: {
-        type: String,   // Tipo ObjectID
+        type: String, // Tipo ObjectID
         ref: 'Usuario', // Referencia al modelo Usuario
-        required: true  // Campo obligatorio
+        required: true // Campo obligatorio
     },
     // URLs de las imágenes de la publicación
     imagenes: {
