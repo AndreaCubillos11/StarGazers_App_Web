@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose'); // Importa mongoose
 
 //Nuevo usuario (clave ya encryptada)
-router.post("/usuario/registrar",  async (req, res) => {
+router.post("/usuario/registrar", async (req, res) => {
     const usuario = UsuarioSchema(req.body);             //crea una constante usuario con el body del post
     usuario.clave = await usuario.encryptClave(usuario.clave);    //encrypta la clave y reemplaza aquella dada
     await usuario
@@ -18,15 +18,15 @@ router.post("/usuario/registrar",  async (req, res) => {
 
 
 //inicio de sesión-Acceso de usuario  
-router.post("/usuario/login",  (req, res) => {
+router.post("/usuario/login", (req, res) => {
     const { correo, clave } = req.body;             //pide correo y contraseña
 
     /*const { errorCredenciales } = userSchema.validate(req.body.correo, req.body.clave);
-  if (errorCredenciales) return res.status(400).json({ error: error.details[0].message });
-  //Buscando el usuario por su dirección de correo
-  const usuario = await UsuarioSchema.findOne({ correo: req.body.correo });
-  //validando si no se encuentra
-  if (!user) return res.status(401).json({ error: "¡Correo no encontrado!" });
+  if (errorCredenciales) return res.status(400).json({ error: error.details[0].message });
+  //Buscando el usuario por su dirección de correo
+  const usuario = await UsuarioSchema.findOne({ correo: req.body.correo });
+   //validando si no se encuentra
+  if (!user) return res.status(401).json({ error: "¡Correo no encontrado!" });
 
     const match = await bcrypt.compare(req.body.clave, usuario.clave);
 
@@ -50,22 +50,28 @@ router.post("/usuario/login",  (req, res) => {
             if (!usuario) {
                 return res.status(401).json({ message: "¡Correo no encontrado!" });
             }
-
+            const correo = usuario.correo;
+            const nombre = usuario.nombre;
+            const apellido = usuario.apellido;
+            const rol = usuario.rol;
             // Verificar si la contraseña es correcta utilizando bcrypt
             const match = await bcrypt.compare(clave, usuario.clave);
 
             if (match) {//si es valida
                 const expiresIn = 24 * 60 * 60;
                 accessToken = jwt.sign(
-                  { id: usuario.id }, 
-                  process.env.SECRET, {
-                  expiresIn: expiresIn
-                });       
+                    { id: usuario.id },
+                    process.env.SECRET, {
+                    expiresIn: expiresIn
+                });
                 res.json({
                     auth: true,                 /*se autorizo*/
                     accessToken,                      /*mostrara el token pa copiarlo*/
-                    correo,                     
-                    message:"se inicio la sesion correctamente"
+                    correo,
+                    nombre,
+                    apellido,
+                    rol,
+                    message: "se inicio la sesion correctamente"
                 });
             } else {
                 res.status(401).json({ message: "¡Contraseña incorrecta!" });
@@ -105,8 +111,8 @@ router.put("/usuario/editar/:id", verifyToken, (req, res) => {
     UsuarioSchema.updateOne({ _id: id }, {
         $set: { nombre, apellido, edad, telefono, intereses }
     })
-    .then((data) => res.json(data))
-    .catch((error) => res.status(500).json({ message: error.message }));
+        .then((data) => res.json(data))
+        .catch((error) => res.status(500).json({ message: error.message }));
 });
 
 // Eliminar un usuario por su ID

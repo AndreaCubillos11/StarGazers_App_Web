@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken') //función para verificar que el token sea v
 //En el servidor se va a recibir así:
 //access-token
 const verifyToken = (req, res, next) => {
-  const token = req.header('access-token')
+  const token = req.header('accessToken')
   if (!token)
     return res
       .status(401)
