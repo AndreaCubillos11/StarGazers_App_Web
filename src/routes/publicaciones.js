@@ -15,6 +15,7 @@ router.post("/publicaciones/crear", verifyToken, (req, res) => {
 // Consultar todas las publicaciones
 router.get("/publicaciones/buscar", verifyToken, (req, res) => {
     PublicacioneSchema.find()
+    .populate({path: "usuarioQueLaSubio", select:"nombre"})
         .then((data) => res.json(data))
         .catch((error) => res.status(500).json({ message: error.message }));
 });

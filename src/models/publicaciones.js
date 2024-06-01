@@ -4,7 +4,7 @@ const PublicacioneSchema = mongoose.Schema({
 
     // Usuario que subió la publicación
     usuarioQueLaSubio: {
-        type: String, // Tipo ObjectID
+        type: mongoose.Schema.Types.ObjectId, // Tipo ObjectID
         ref: 'Usuario', // Referencia al modelo Usuario
         required: true // Campo obligatorio
     },

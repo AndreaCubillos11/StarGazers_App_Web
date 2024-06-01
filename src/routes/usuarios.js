@@ -54,6 +54,7 @@ router.post("/usuario/login", (req, res) => {
             const nombre = usuario.nombre;
             const apellido = usuario.apellido;
             const rol = usuario.rol;
+            const id = usuario._id;
             // Verificar si la contraseña es correcta utilizando bcrypt
             const match = await bcrypt.compare(clave, usuario.clave);
 
@@ -71,6 +72,7 @@ router.post("/usuario/login", (req, res) => {
                     nombre,
                     apellido,
                     rol,
+                    id,
                     message: "se inicio la sesion correctamente"
                 });
             } else {
