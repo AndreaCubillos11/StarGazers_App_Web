@@ -4,7 +4,7 @@ const ContenidoSchema = require("../models/contenidos"); // Importar el esquema 
 const verifyToken = require("./validar_token");
 
 // Endpoint para crear un nuevo contenido
-router.post("/contenidos/crear",verifyToken, (req, res) => {
+router.post("/contenido/crear",verifyToken, (req, res) => {
     // Crear una nueva instancia del modelo ContenidoSchema con los datos recibidos en la solicitud
     const nuevoContenido = ContenidoSchema(req.body);
     nuevoContenido

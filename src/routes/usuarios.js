@@ -20,32 +20,8 @@ router.post("/usuario/registrar", async (req, res) => {
 //inicio de sesión-Acceso de usuario  
 router.post("/usuario/login", (req, res) => {
     const { correo, clave } = req.body;             //pide correo y contraseña
-
-    /*const { errorCredenciales } = userSchema.validate(req.body.correo, req.body.clave);
-  if (errorCredenciales) return res.status(400).json({ error: error.details[0].message });
-  //Buscando el usuario por su dirección de correo
-  const usuario = await UsuarioSchema.findOne({ correo: req.body.correo });
-   //validando si no se encuentra
-  if (!user) return res.status(401).json({ error: "¡Correo no encontrado!" });
-
-    const match = await bcrypt.compare(req.body.clave, usuario.clave);
-
-    if (match) {//si es valida
-                const token = jwt.sign(         //*cree un token
-                { id: user._id },           //*asociado al id del usuario
-                process.env.SECRET,         //*y recibiendo la variable de entorno SECRET
-                { expiresIn: 60 * 60 * 24}  //*que expire la sesion tras un día en segundos
-            );           
-            res.json({
-                auth: true,                 //*se autorizo*
-                token,                      /*mostrara el token pa copiarlo
-                correo,                     
-                message:"se inicio la sesion correctamente"
-            });
- */
-
     // Buscar el usuario en la base de datos por correo
-    UsuarioSchema.findOne({ correo: correo })       //hallara un 
+    UsuarioSchema.findOne({ correo: correo })       //hallara un usuario cuyo correo coincida con el dado
         .then(async usuario => {
             if (!usuario) {
                 return res.status(401).json({ message: "¡Correo no encontrado!" });
@@ -67,7 +43,7 @@ router.post("/usuario/login", (req, res) => {
                 });
                 res.json({
                     auth: true,                 /*se autorizo*/
-                    accessToken,                      /*mostrara el token pa copiarlo*/
+                    accessToken,                /*mostrara el token pa copiarlo*/
                     correo,
                     nombre,
                     apellido,
@@ -92,7 +68,7 @@ router.get("/usuario/perfiles", (req, res) => {
 });
 
 //Consultar un usuario por su id
-router.get("/Usuario/perfiles/:id", (req, res) => {
+router.get("/usuario/perfiles/:id", (req, res) => {
     const { id } = req.params;
     UsuarioSchema
         .findById(id)
@@ -129,38 +105,5 @@ router.delete("/usuario/borrar/:id", verifyToken, (req, res) => {
             res.json({ message: error });
         });
 });
-
-// Endpoint para inicio de sesión
-/*
-router.post("/login", (req, res) => {
-    const { correo, clave } = req.body;
-
-    // Buscar el usuario en la base de datos por correo
-    UsuarioSchema.findOne({ correo: correo })
-        .then(user => {
-            if (!user) {
-                // Si el usuario no existe, devolver un mensaje de error
-                return res.status(401).json({ message: "¡Correo no encontrado!" });
-            }
-
-            // Verificar si la contraseña es correcta
-            if (clave === user.clave) {
-                // Si la contraseña es correcta, generar un token JWT
-                const token = jwt.sign({ correo: correo }, 'secreto', { expiresIn: '1h' });
-                res.json({ token: token });
-            } else {
-                // Si la contraseña no es correcta, devolver un mensaje de error
-                res.status(401).json({ message: "¡Contraseña incorrecta!" });
-            }
-        })
-        .catch(error => {
-            // Si hay un error en la consulta a la base de datos, devolver un mensaje de error
-            res.status(500).json({ message: "Error en la base de datos", error: error });
-        });
-});* */
-
-
-
-
 
 module.exports = router;
