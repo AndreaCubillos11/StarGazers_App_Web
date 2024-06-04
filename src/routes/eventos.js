@@ -2,6 +2,7 @@ const express = require("express"); // Importa el módulo express
 const router = express.Router(); // Crea un nuevo enrutador de express
 
 // Manejador de rutas de express
+const UsuarioSchema = require("../models/usuarios");
 const EventoSchema = require("../models/eventos"); // Importa el esquema de eventos desde el archivo ../models/eventos
 const verifyToken = require("./validar_token"); // Importa la función verifyToken desde el archivo ./validar_token
 
@@ -67,6 +68,37 @@ router.delete("/evento/eliminar/:id", verifyToken, (req, res) => { // Ruta DELET
       res.json(data); // Si se elimina correctamente, envía los datos del evento eliminado como respuesta
     })
     .catch((error) => res.status(500).json({ message: error.message })); // Si ocurre un error, envía un mensaje de error con código 500
+});
+
+router.get('/evento/SegunIntereses/:id', (req, res) => {
+  const { id } = req.params;
+  var interesesABuscar = [];
+  // Intereses específicos a buscar
+  const Usuario = UsuarioSchema
+    .findById(id).then((data) => {
+
+      interesesABuscar = data.intereses;
+
+      console.log("INTERRES" + interesesABuscar)
+      //console.log(interesesABuscar);
+      const regex = interesesABuscar.join("|");
+      // Consulta MongoDB para buscar eventos que se relacionen con los id mencionados
+      EventoSchema.find({ titulo: { $regex: regex, $options: 'i' } })
+        .then(result => {
+          // Resultado de la consulta
+          console.log('Resultados:', result);
+          // Envío de los resultados al cliente
+          res.send(result);
+        })
+        .catch(err => {
+          console.error('Error al buscar eventos:', err);
+          // Manejo de error
+          res.status(500).send('Error interno del servidor');
+        });
+    });
+
+
+
 });
 
 module.exports = router; // Exporta el enrutador para ser utilizado en otros archivos
