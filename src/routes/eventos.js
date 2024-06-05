@@ -79,19 +79,19 @@ router.get('/evento/SegunIntereses/:id', (req, res) => {
 
       interesesABuscar = data.intereses;
 
-      console.log("INTERRES" + interesesABuscar)
+      //console.log("INTERRES" + interesesABuscar)
       //console.log(interesesABuscar);
       const regex = interesesABuscar.join("|");
       // Consulta MongoDB para buscar eventos que se relacionen con los id mencionados
       EventoSchema.find({ titulo: { $regex: regex, $options: 'i' } })
         .then(result => {
           // Resultado de la consulta
-          console.log('Resultados:', result);
+          //console.log('Resultados:', result);
           // Envío de los resultados al cliente
           res.send(result);
         })
         .catch(err => {
-          console.error('Error al buscar eventos:', err);
+          //console.error('Error al buscar eventos:', err);
           // Manejo de error
           res.status(500).send('Error interno del servidor');
         });

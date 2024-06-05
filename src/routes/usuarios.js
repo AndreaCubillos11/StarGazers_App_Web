@@ -96,7 +96,7 @@ router.put("/usuario/editar/:id", verifyToken, (req, res) => {
     /*const usuario = UsuarioSchema(req.body);*/
     const { id } = req.params;
     const { nombre, apellido, nacionalidad, telefono} = req.body;
-    console.log('intereses:'+req.body.intereses)
+    //console.log('intereses:'+req.body.intereses)
     var arregloIntereses = req.body.intereses;
 
     if(!Array.isArray(arregloIntereses)){
