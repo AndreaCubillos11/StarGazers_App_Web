@@ -15,7 +15,7 @@
 
 > - **node.js:**  entorno de ejecución servidor para back-end web descargable en: https://nodejs.org/es/, comando implementador: npm init --yes
 
-> - **nodemon:** actualizador automatico del servidor de node.js, comando implementador: npm i –D nodemon, Agregar en el package.json un script que active ¨nodemon src/index.js¨
+> - **nodemon:** actualizador automatico del servidor de node.js, comando implementador: npm i –-D nodemon, Agregar en el package.json un script que active ¨nodemon src/index.js¨
 
 > - **express:**  back-end para node.js, comando implementador: npm i express --save
  
